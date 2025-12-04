@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style lang="less" scoped>
+      
+    </style>
+    <script>
+        function Person (name){
+            this.name = name;
+        }
+        Person.prototype.sayName = function(){
+            console.log(this.name);
+        }
+        function Student(name, age){
+            Person.call(this, name);
+            this.age = age;
+        }
+        Student.prototype = Object.create(Person.prototype,{
+            constructor: {
+                value: Student,
+            },
+            sayName:{
+                value(){
+                    console.log(this.name);
+                }
+            }
+        });
+        // Student.prototype.constructor = Student;
+        // Student.prototype.sayAge = function(){
+        //     console.log(this.age);
+        // }
+        var s = new Student('烟烟', 22);
+        s.sayName();
+        // s.sayAge();
+    </script>
+</head>
+<body>
+</body>
+</html>

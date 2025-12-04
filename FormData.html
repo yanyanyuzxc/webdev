@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" class="inp">
+    <button class="icon">提交JSON文件</button>
+    <script>
+        // document.querySelector('.inp').addEventListener('change', async function() {
+        //     const img = this.files[0]
+        //     const data = new FormData()
+        //     data.append('img', img)
+        //     const res = await fetch('http://hmajax.itheima.net/api/uploadimg',{
+        //         method: 'post',
+        //         body: data
+        //     })
+        //     const result = await res.json()
+        // })//提交formdata表单
+        document.querySelector('.icon').addEventListener('click',async ()=>{
+            const headers = new Headers()
+           headers.append('content-type','application/json')//append方法添加键值对,同时增加相应头
+             const res = await fetch('http://hmajax.itheima.net/api/register',{
+                method:'post',
+                headers,
+                body:JSON.stringify({
+                    username:'itheima666dsdadsad',
+                    password:'123456asdasd'
+                })
+            })//提交JSON数据是，body的数据不能是一个简单的对象，而是转化为JOSN数据
+            //同时需要设置请求头的content-type为application/json
+            //想要进行数据的校验可以通过返回数据的status来判断
+            const result = await res.json()//处理返回的json数据
+            console.log(result)
+        })
+    </script>
+</body>
+</html>

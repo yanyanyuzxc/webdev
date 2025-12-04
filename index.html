@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //手写call方法
+        // Function.prototype.mycall = function(thisArgs,...args){
+
+        //     const key = Symbol('key')//定义一个Symbol属性作为标记,这个属性一定是唯一的
+        //     thisArgs[key] = this//这里的this就是调用call方法的对象（mycall)，
+        //     //这里使用[key]是因为使用.key就代表是原有的一个静态属性，
+        //     // 所以用[key]来避免冲突，同时保持动态性。
+        //     const res = thisArgs[key](...args)
+         
+
+        //     delete thisArgs[key]//删除属性  
+        //     return res
+        // }// 实现call方法,思路就是就是给每个Function对象添加一个属性attribution,
+        // 然后将thisArgs和args传给this属性,然后删除attribution属性,最后返回结果
+
+       //手写apply方法
+//        Function.prototype.myapply = function(thisArgs, argsArray){
+//         const key = Symbol('key')
+//         thisArgs[key] = this
+//         const res = thisArgs[key](...argsArray)
+//         delete thisArgs[key]
+//         return res
+//        }
+//        const person = {
+//     name: "烟烟",
+// };
+Function.prototype.mybind =   function(thisArgs,...args){
+    return (...argss)=> {
+        return  this.call(thisArgs,...args,...argss)
+    }
+}
+
+       //手写bind方法
+       Function.prototype.mybind = function(thisArgs,...args)
+       {
+         return (...argss)=> {
+            
+            return  this.call(thisArgs,...args,...argss)
+            
+         }
+       }
+function func(num1, num2) {
+    console.log(this);
+    console.log(num1, num2);
+    return num1 + num2;
+}
+
+const res = func.mybind(person, 1,2);
+const result = res(3,4);
+console.log('返回值为:' + result);
+
+    </script>
+</body>
+</html>

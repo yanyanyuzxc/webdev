@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//  const obj = {
+//         name: '烟烟',
+//         age: 25,
+//         sayhello:function(){
+//             return ()=>{
+//                 console.log(`Hello, ${this.name}!`)
+//             }
+//         }
+//     }
+//     obj.sayhello()()
+// function constructor(name, age) {
+//     this.name = name;
+//     this.age = age;}
+//     const obj1 = new constructor('烟烟', 25);
+//     const obj2 = new constructor('小明', 20);
+//     console.log(obj1);
+//     console.log(obj2);
+
+
+
+
+//设计单例模式
+// class Singleton{
+//     static #instance 
+//    static getInstance(){
+//     if(!this.#instance)
+//    {
+//     this.#instance = new Singleton()
+//    }
+//    return this.#instance
+//    }
+// }
+
+
+// const obj3 = Singleton.getInstance()
+// const obj4 = Singleton.getInstance()
+// console.log(obj3===obj4)
+
+
+
+//发布订阅模式
+
+// class HMEmmiter{
+//     #handlers = {}
+//     $on(event,callback){
+//      if(!this.#handlers[event]){
+//         this.#handlers[event]  = []
+//      }
+//      this.#handlers[event].push(callback)
+//           }//在注册事件时，如果没有这个事件，则创建数组，并将回调函数push进去。
+//     //同时传递的是函数，同时没有必要去考虑函数的参数
+//     $emit(event,...args){
+//        if(this.#handlers[event]){
+//            this.#handlers[event].forEach(callback=>callback(...args))
+//        }
+        
+//     }//这里是直接执行在on中注册的函数，同时传递参数
+//     $off(event){
+//         if(this.#handlers[event]){
+//             this.#handlers[event]=[]
+//         }
+//     }
+//     $once(event,callback){
+//         this.$on(event,(...args)=>{
+//             callback(...args)
+//             this.$off(event)
+//         })//这里是将传递的callback函数和off函数一起传递给on函数，执行完后销毁事件
+//         //在后面通过emit的方法执行，在这里不用管在执行函数
+//     }//这里是注册一个一次性事件，执行完后就销毁事件
+// }
+
+
+
+
+Object.prototype.objfunc = function(){}
+Array.prototype.arrfunc = function(){}
+const obj = {
+    [Symbol.iterator](){
+        ////方法一：
+        // let index = 0
+        // const arr = ['烟烟', '小明', '小红']
+        // return {
+        //     next(){
+        //         if(index < arr.length){
+        //             return {value:arr[index++],done:false}
+        //         }else{
+        //             return {done:true}
+        //         }
+        //     }
+        // }
+
+
+        //方法二：使用迭代器的形式
+        
+        function* gen() {
+            yield '烟烟'
+            yield '小明'
+            yield '小红'
+        }
+       return gen()
+    }
+        }
+for(const item of obj){
+    console.log(item)
+}
+// const obj5 = {name:'烟烟',age:25}
+// for(const key in obj5){
+//     console.log(key)//in是遍历对象的key值
+// }
+// for(const key of obj5){
+//     console.log(key)//of是遍历数组的索引值
+// }//这里是遍历对象和数组的key值，但是对于对象来说，遍历的是key值，对于数组来说，遍历的是索引值
+//但是可以自己通过迭代器来实现
+
+</script>
+    
+
+</body>
+</html>

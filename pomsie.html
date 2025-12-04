@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const PENDING = 'pending'
+        const FULFILLED = 'fulfilled'
+        const REJECTED = 'rejected'
+        function resolvePromise(promise2, x, resolve, reject) {     if(x===p2)
+                {
+                    throw new TypeError('Chaining cycle detected for promise')
+                }
+                    if(x instanceof HMPromise)
+                {
+                    x.then(res=>{
+                        resolve(res)
+                    }, err=>{
+                        reject(err)
+                    })
+                }
+                else{
+                    resolve(x)
+                }}
+        function runAsync (callBack) {
+          if(typeof queueMicrotask === 'function'){
+            queueMicrotask(callBack)
+          }else if(typeof MutationObserver === 'function')
+          {
+            const obs = new MutationObserver(callBack)
+            const divNode = document.createElement('div')
+            obs.observe(divNode,{
+              childList:true,
+            })
+            div.innerHTML = 'hello'
+          }else{
+            setTimeout(callBack,0)
+          }
+        }
+        class HMPromise {
+             state = PENDING
+             result = undefined
+             #handlers = [] // 用于存储处理函数
+           constructor(func){
+            const resolve = (result) =>{
+                if(this.state === PENDING)
+             {
+                this.state = FULFILLED
+                this.result = result
+                this.#handlers.forEach(({onFullFilled}) => {
+                    onFullFilled(this.result)//因为数组中每一个都是对象，
+        // 所以需要使用解构表达式来结构其中的一个onFullFilled函数或者是onRejected函数
+        // 同时使用forEach方法遍历数组，并执行其中的函数
+                })
+                }
+            }
+            const reject  = (result) => {
+                if(this.state === PENDING)
+            {
+                this.state = REJECTED
+                this.result = result
+                this.#handlers.forEach(({onRejected}) => {
+                    onRejected(this.result)
+                })
+            }
+               
+            }
+            func(resolve, reject)
+           }
+           then(onFullFilled, onRejected){
+            onFullFilled = typeof onFullFilled ==='function' ? onFullFilled : (x) => x
+            onRejected = typeof onRejected === 'function' ? onRejected : (x) => {throw x}
+            const p2 = new HMPromise((resolve, reject) => {
+            if(this.state === FULFILLED)
+           {
+            runAsync(()=>{
+                try{
+                    const x = onFullFilled(this.result)
+                    if(x===p2)
+                {
+                    throw new TypeError('Chaining cycle detected for promise')
+                }
+                    if(x instanceof HMPromise)
+                {
+                    x.then(res=>{
+                        resolve(res)
+                    }, err=>{
+                        reject(err)
+                    })
+                }
+                else{
+                    resolve(x)
+                }
+                }catch(error){
+                    reject(error)
+                }
+            })
+            
+           }
+           else if(this.state === REJECTED)
+           {
+            runAsync(()=>{
+                try{
+                    onRejected(this.result)
+                }catch(error)
+                {
+                    reject(error)
+                }
+               
+            })
+           }
+           else{
+            this.#handlers.push({
+                onFullFilled:(res)=>{
+                    runAsync(()=>{
+                        onFullFilled(res)
+                    })
+                }, 
+                onRejected:(res)=>{
+                    runAsync(()=>{
+                        onRejected(res)
+                    })
+                }})
+           }
+           })
+            return p2
+        
+        }
+    }
+    const p = new HMPromise((resolve, reject)=>{
+        // resolve(1)
+        reject(1)
+        })
+    const p2 = p.then(undefined,err=>{
+       throw  'error'
+    })
+    p2.then(res=>{},
+        err=>{
+            console.log('p2-err',err)
+        }
+    )
+    // const p = new HMPromise((resolve, reject)=>{
+    //     resolve(1)})
+    // p.then(res=>{
+    //     return new HMPromise((resolve, reject)=>{
+    //         resolve(2)
+    //     })
+    // }).then(res=>{
+    //     console.log('p2:'+ res)
+    // },err=>{
+    //     console.log(err)
+    // })res和err一对，try和catch中分别处理成功和失败的情况
+        // const p = new HMPromise((resolve, reject)=>{
+        //     setTimeout(()=>{
+        //         resolve('success')
+        //     },2000)
+          
+        //     // reject('error')
+        // })
+        // p.then(res=>{
+        //     console.log('then1'+res)
+        // },err=>{
+        //     console.log(err)
+        // })
+        // p.then(res=>{
+        //     console.log('then2'+res)
+        // },err=>{
+        //     console.log(err)
+        // })
+        // console.log('start')
+        // const obs = new MutationObserver(()=>{
+        //     console.log('observer')
+        // })
+        // const divNode = document.createElement('div')
+        // obs.observe(divNode,{
+        //     childList:true,
+        // })
+        // divNode.innerHTML = 'hello'
+        // console.log('end')
+
+
+    
+   
+    </script>
+</body>
+</html>

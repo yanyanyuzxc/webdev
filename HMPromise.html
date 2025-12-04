@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+const pending = 'pending'
+const fulfilled = 'fulfilled'
+const rejected = 'rejected'
+function runAsync (callBack){
+    if(typeof queueMicrotask === 'function'){
+        queueMicrotask(callBack)
+    }
+    else if(typeof MutationObserver === 'function')
+    {
+        const obs = new MutationObserver(callBack)
+        const divNode = document.createElement('div')
+        obs.observe(divNode,{childList:true})
+        div.innerHTML = 'hello'
+    } 
+    else{
+        setTimeout(callBack,0)
+    }
+}
+        class HMPromise{
+             state = pending
+             result = undefined
+             #handlers = []//用于存储处理函数
+            constructor(func){
+                const resolve = (result) => {
+                    if(this.state === pending){
+                        runAsync(() => {
+                        this.state = fulfilled
+                        this.result = result
+                        this.#handlers.forEach(({onFullFilled})=>{
+                            onFullFilled(this.result)
+                        })
+                    })
+                    }
+                   
+                }
+                const reject = (result) => {
+                    if(this.state === pending){
+                        runAsync(() => {
+                        this.state = rejected
+                        this.result = result
+                        this.#handlers.forEach(({onRejected})=>{
+                            onRejected(this.result)
+                        })
+                    })
+                    }
+                   
+                }
+                func(resolve, reject)
+            }
+            then(onFullFilled, onRejected){
+                onFullFilled =  typeof onFullFilled === 'function'? onFullFilled : (result) => result
+                onRejected = typeof onRejected === 'function'? onRejected : (error) => {throw error}
+                if(this.state === fulfilled)
+                {
+                    onFullFilled(this.result)
+                }
+                if(this.state === rejected)
+                {
+                    onRejected(this.result)
+                }
+                if(this.state === pending)
+                {
+                    this.#handlers.push({
+                        onFullFilled:()=>{
+                            runAsync(() => {
+                                onFullFilled(this.result)
+                            })
+                        }, onRejected:()=>{
+                            runAsync(() => {
+                                onRejected(this.result)
+                            })
+                        }
+                        })
+                }
+            }
+        }
+    </script>
+</body>
+</html>

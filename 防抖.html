@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="input">
+        <input type="search" class="search" placeholder="请输入关键字" @keyup.enter="search">
+        <button class="btn" @click="search">搜索</button>
+
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script>
+            var timeId = null
+        //    const func = (e)=>{
+        //     clearTimeout(timeId)
+        //      timeId = setTimeout(()=>{
+        //         console.log(e.target.value)
+        //     },500)
+        //   }
+      function func(e) {
+        console.log(e.target.value)
+      }
+
+      const throttle = (func, wait)=>{
+        let timeId = null
+        return (...args) =>{
+            if(timeId){
+                return
+            }
+            timeId = setTimeout(()=>{
+             func(...args)
+             timeId = null
+            },1000)
+        }
+      }//手写简单的节流函数
+      const debounce = (func, wait)=>{
+        let timeId = null
+
+        // return function(...args){
+        //     console.log(this)
+        //     func(...args)
+        // }
+        return function(...args){
+            clearTimeout(timeId)
+            timeId = setTimeout(()=>{
+                console.log(this.value)//记住箭头函数的this指向是它上一级的触发者
+                func(...args)
+            },wait)
+            // timeId = setTimeout(function(...args){
+            //     console.log(this)
+            //    func(...args)
+            // },wait)
+        }
+      }//手写简单的防抖函数
+        const funcFn = debounce(func,500)
+
+       document.querySelector('.search').addEventListener('input',funcFn)
+       //这里触发funcFn函数的是input事件，所以这里的this指向的是input元素，所以可以直接获取value值
+    </script>
+</body>
+</html>

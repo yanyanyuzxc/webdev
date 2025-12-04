@@ -1,0 +1,250 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+
+// .container{
+//     width:60px;
+//     height:60px;
+//     margin: 20px auto;
+//     border-radius:50%;
+//     background: conic-gradient(transparent 0deg,transparent 60deg,rgb(146, 221, 242) 360deg);
+//     mask:radial-gradient(circle,transparent calc(50% - 1px),#fff 50%);
+//     animation: identifier 0.6s linear infinite;
+//     box-shadow: 5px 5px 5px grey;
+// }
+// .box{
+//     width:300px;
+//     height:300px;
+//     margin: 20px auto;
+//     border:1px solid #ccc;  
+//     border-color: blue;
+//     background-image: repeating-conic-gradient(rgb(150, 244, 243) 0deg 10deg,transparent 10deg,transparent 20deg);
+//     //设置这种渐变的时候，如果不设置每个颜色的范围，颜色会自动渐变到下一个颜色
+//     box-shadow: 5px 5px 5px grey;
+// }
+// .box1{
+//     width:300px;
+//     height:300px;
+//     box-shadow: 5px 5px 5px grey;
+//     margin: 20px auto;
+//     border-radius:50%;
+//     border:1px solid #ccc;  
+//     background-image: repeating-conic-gradient(rgb(150, 244, 243) 0deg 25%,transparent 25% 50%,
+//     rgb(150, 244, 243) 50% 75%,transparent 75% 100%);
+//     background-size: 20px 20px;
+// }
+// @keyframes identifier {
+//     from{
+//         transform:rotate(0deg);
+//     }
+//     to{
+//         transform:rotate(360deg);
+//     }
+// }
+// 注意写calc的时候中间要有空格，不然有错
+
+
+.container{
+    box-sizing:border-box;
+    width:200px;
+    // background-color:red;
+    height:200px;
+   
+    // background-color: aquamarine;
+    margin: 40px auto;
+    // padding: 20px;
+    border-radius: 10px;
+    border:1px solid #ccc;
+    position:relative;
+    display: flex;
+    // grid-template-columns: 200px 200px 200px;
+    // grid-template-rows: 1fr,3fr;
+    // gap:20px;
+    // justify-content: center;
+
+    // flex-direction: column;
+    box-shadow: 5px 5px 5px grey;
+    transform-style: preserve-3d;
+    perspective: 800px;
+    // transform-origin: right bottom;
+    transition: all 5s ;
+    transform:rotate3d(0,1,0,20deg);
+    text-align: center;
+    span{
+        font-size:30px;
+        // line-height:200px;
+        text-decoration: dashed underline skyblue;
+        
+        // writing-mode: vertical-rl;//文字竖排
+       //设置行高，也就是设置文字的垂直居中(但是也只能是单行)
+       //多行文字这么设计师没有效果的
+    }
+    // align-items: center;//注意如果设计的
+    &:hover{
+        transform:rotate3d(0,1,0,360deg) ;
+    }
+    .box,.box1,.box2,.box3,.box4,.box5{
+        box-shadow: 5px 5px 5px grey;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .box{
+        // width:fit-content;
+        // margin:0 auto;
+        // padding:20px;
+        height:200px;
+        width:200px;
+       
+        background-color: yellow;
+        margin-bottom:20px;
+         overflow: hidden;
+   
+        //  transition: all 1s ease-in-out;//添加过度效果
+        //   &:hover{
+        //     transform: scale(1.1) rotate3d(0,1,0,180deg) ;
+            
+        //   }
+        //   &:nth-child(2n):hover{
+        //     transform: scale(1.1) ;
+        //     box-shadow: 5px 5px 5px grey;
+        //   }
+        // 法一：
+        // margin: 0 auto;//常见的水平居中方式>-->
+      
+        // 法二：
+        // 常见的水平居中方式-->
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        //这个方法还是子元素只有一个的话，可以用这个方法
+
+
+
+        // 法三：
+        // 利用flex布局-->
+        //这个方法主要是针对父级设置的
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // 这个方法可以适用于多个子元素的情况
+
+        // 法四：
+        //一样的是display: flex;
+        //同时一个子元素的话，可以设置margin:auto;
+        border:1px solid #ccc;
+        // text-indent: 2em;
+        // span{
+        //     font-size:30px;
+        //     line-height:200px;
+        //     text-decoration: dashed underline skyblue;
+        //     // writing-mode: vertical-rl;//文字竖排
+        //    //设置行高，也就是设置文字的垂直居中(但是也只能是单行)
+        //    //多行文字这么设计师没有效果的
+        // }
+        // &:nth-child(2n+1){
+        //    width:150px;
+        // }
+        // &:nth-child(2){
+        //   flex:1;
+        //   min-width:100px;
+        //  }
+    }
+    .box1{
+        width:100%;
+        height:100%;
+        background-color:orange;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate3d(-50%, -50%,200px);
+        //这里可以设置父元素的点击效果，通过旋转来清楚的看到这里的纵深
+    }
+    .box2{
+        width:200px;
+        height:200px;
+        background-color:blue;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate3d(-50%,0,100px)  rotate3d(1,0,0,90deg);
+    }
+    .box3{
+        width:200px;
+        height:200px;
+        background-color:pink;
+       
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate3d(0,-50%,100px)  rotate3d(0,1,0,90deg);
+        opacity: 0.5;
+    }
+    .box4{
+        width:200px;
+        height:200px;
+        background-color:slateblue;
+       
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate3d(-100%,-50%,100px)  rotate3d(0,1,0,90deg);
+        opacity: 0.5;
+    }
+    .box5{
+        width:200px;
+        height:200px;
+        background-color:seagreen;
+       
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate3d(-50%,-100%,100px)  rotate3d(1,0,0,90deg);
+        opacity: 0.5;
+    }//设置这6个盒子，达到正方体的效果
+    // .box2{
+    //     // width:fit-content;
+    //     // margin:auto;
+    //     padding:20px;
+    //     // height: auto;
+    //     height:100px;
+    //     background-color: #f2f2f2;
+    //     margin-bottom:20px;
+    //     flex:auto;
+    //     // 法一：
+    //     // margin: 0 auto;//常见的水平居中方式>-->
+      
+    //     // 法二：
+    //     // 常见的水平居中方式-->
+    //     // position:absolute;
+    //     // top:50%;
+    //     // left:50%;
+    //     // transform: translate(-50%, -50%);
+    //     //这个方法还是子元素只有一个的话，可以用这个方法
+
+
+
+    //     // 法三：
+    //     // 利用flex布局-->
+    //     //这个方法主要是针对父级设置的
+    //     // display: flex;
+    //     // justify-content: center;
+    //     // align-items: center;
+    //     // 这个方法可以适用于多个子元素的情况
+
+    //     // 法四：
+    //     //一样的是display: flex;
+    //     //同时一个子元素的话，可以设置margin:auto;
+    //     border:1px solid #ccc;
+    //     span{
+    //         font-size:30px;
+    //         line-height:30px;
+    //        //设置行高，也就是设置文字的垂直居中(但是也只能是单行)
+    //        //多行文字这么设计师没有效果的
+    //     }
+    // }
+   
+}
